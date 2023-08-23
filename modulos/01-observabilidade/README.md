@@ -1,6 +1,12 @@
 # Observabilidade
 Coletando métricas de uma aplicação com Prometheus
 
+## Tópicos das aulas</br>
+Cada tópico terá um arquivo como os passos para execução das modificações e suas evidências.
+
+* **Aula01/** - Tornando uma aplicação observável
+* **Aula02/** - Exemplo
+
 ## Softwares e versões
 
 Para preservar meu sistema e minha máquina eu criei um ambiente com Vagrant usando o Virtualbox como Hypervisor.</br>
