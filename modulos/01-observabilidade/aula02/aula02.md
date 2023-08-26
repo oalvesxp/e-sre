@@ -86,7 +86,7 @@ http_server_requests_seconds_sum{application="app-forum-api",exception="None",me
 Além das métricas padrões nós precisamos de outras personalizadas para ter mais observabilidade sob as regras de negócio, por exemplo, número de usuários autenticados, e tentativas de autenticação com erro.
 </br>
 Para faer isso vamos primeiro configurar um método no nosso código para ele gerar essa métrica.</br>
-Acesse o arquivo "~api/app/src/main/java/br/com/alura/forum/controller/AutenticacaoController.java" e import as bibliotecas necessárias a partir da linha 20:
+Acesse o arquivo "~/api/app/src/main/java/br/com/alura/forum/controller/AutenticacaoController.java" e import as bibliotecas necessárias a partir da linha 20:
 ```
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
