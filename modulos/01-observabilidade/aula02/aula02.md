@@ -124,4 +124,55 @@ Por fim adicione o increment no metodo de geração do Token:
 		}
 ```
 </br>
-Agora repita o processo de compilação do artefato jar e suba a aplicação novamente.
+Agora repita o processo de compilação do artefato jar e suba a aplicação novamente.</br>
+Para testar vamos executar o comando curl abaixo para 
+
+```
+$ curl -X POST \
+  http://localhost:8080/auth \
+  -H 'Authorization: Bearer token' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "email": "moderador@email.com",
+    "senha": "123456"
+  }'
+```
+Ele deve retornar um token do tipo Bearer se o curl tiver dado certo:
+
+```
+{"token":"eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgZG8gRsOzcnVtIGRhIEFsdXJhIiwic3ViIjoiMiIsImlhdCI6MTY5MzA4OTUwMSwiZXhwIjoxNjkzMTc1OTAxfQ.rlUOc1dIp6j4iaU9MhpZcy67SkLJZUuf9m6395LPYrA","tipo":"Bearer"}
+```
+</br>
+Agora se você visualizar executar mais algumas vezes e visualizar a métrica no prometheus poderá ver a quantidade de usuários que foram autenticados:
+
+```
+auth_user_success_total{application="app-forum-api",} 21.0
+```
+E também é possivel ver as requisições passando na nossa outra métrica padrão:
+
+```
+http_server_requests_seconds_bucket{application="app-forum-api",exception="None",method="POST",outcome="SUCCESS",status="200",uri="/auth",le="0.05",} 0.0
+http_server_requests_seconds_bucket{application="app-forum-api",exception="None",method="POST",outcome="SUCCESS",status="200",uri="/auth",le="0.1",} 5.0
+http_server_requests_seconds_bucket{application="app-forum-api",exception="None",method="POST",outcome="SUCCESS",status="200",uri="/auth",le="0.2",} 20.0
+http_server_requests_seconds_bucket{application="app-forum-api",exception="None",method="POST",outcome="SUCCESS",status="200",uri="/auth",le="0.3",} 21.0
+http_server_requests_seconds_bucket{application="app-forum-api",exception="None",method="POST",outcome="SUCCESS",status="200",uri="/auth",le="0.5",} 21.0
+http_server_requests_seconds_bucket{application="app-forum-api",exception="None",method="POST",outcome="SUCCESS",status="200",uri="/auth",le="1.0",} 21.0
+http_server_requests_seconds_bucket{application="app-forum-api",exception="None",method="POST",outcome="SUCCESS",status="200",uri="/auth",le="+Inf",} 21.0
+```
+</br>
+Simulando uma falha também conseguimos ver a métrica coletando a informação:
+
+```
+auth_user_errors_total{application="app-forum-api",} 6.0
+```
+E vemos também a requisição passando pela métrica padrão:
+
+```
+http_server_requests_seconds_bucket{application="app-forum-api",exception="None",method="POST",outcome="CLIENT_ERROR",status="400",uri="/auth",le="0.05",} 0.0
+http_server_requests_seconds_bucket{application="app-forum-api",exception="None",method="POST",outcome="CLIENT_ERROR",status="400",uri="/auth",le="0.1",} 2.0
+http_server_requests_seconds_bucket{application="app-forum-api",exception="None",method="POST",outcome="CLIENT_ERROR",status="400",uri="/auth",le="0.2",} 5.0
+http_server_requests_seconds_bucket{application="app-forum-api",exception="None",method="POST",outcome="CLIENT_ERROR",status="400",uri="/auth",le="0.3",} 5.0
+http_server_requests_seconds_bucket{application="app-forum-api",exception="None",method="POST",outcome="CLIENT_ERROR",status="400",uri="/auth",le="0.5",} 6.0
+http_server_requests_seconds_bucket{application="app-forum-api",exception="None",method="POST",outcome="CLIENT_ERROR",status="400",uri="/auth",le="1.0",} 6.0
+http_server_requests_seconds_bucket{application="app-forum-api",exception="None",method="POST",outcome="CLIENT_ERROR",status="400",uri="/auth",le="+Inf",} 6.0
+```
