@@ -28,6 +28,7 @@ Adicione a dependência ao arquivo pom.xml localizado no path "~/api/api/pom.xml
 </br>
 Após isso você também precisa adicionar os properties para que o Actuator externalize as informações de Health, Info e Metrics da aplicação.
 Essa alteração deve ser feita no arquivo "~/api/app/src/main/resources/application-prod.properties":
+
 ```
 # actuator
 management.endpoint.health.show-details=always
