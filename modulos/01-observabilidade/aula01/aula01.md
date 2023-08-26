@@ -48,3 +48,34 @@ Você deve ser capaz de ver agora a página do actuator:
 
 Para ver uma métrica específica basta acrescentar /<nome-da-metrica> na url do metrics, por exemplo:
 * http://localhost:8080/actuator/metrics/jvm.memory.used
+
+### Configurando o Micrometer</br>
+
+Neste passo vamos traduzir as informações que externalizamos com o Actuator para um formato que o Prometheus consiga interpretar, para isso vamos utilizar o Micrometer.
+Para configurar o Micrometer você precisa primeiro adicionar a dependência no pom.xml, que você pode encontrar na documentação oficial do <a href="https://micrometer.io/docs/installing">Micrometer</a>:
+```
+<dependency>
+  <groupId>io.micrometer</groupId>
+  <artifactId>micrometer-registry-prometheus</artifactId>
+  <version>${micrometer.version}</version>
+</dependency>
+```
+</br>
+Após configurar a dependência, é necessário adicionar também as propriedades no application-prod.properties.
+Primeiro externalize o endpoint do Prometheys na configuração do actuator:
+
+```
+management.endpoints.web.exposure.include=health,info,metrics, prometheus
+```
+
+Em seguida configure as metricas e SLA para o Prometheus:
+
+```
+# promeutheus
+management.metrics.enable.jvm=true
+management.metrics.export.prometheus.enabled=true
+management.metrics.distribution.sla.http.server.requests=50ms,100ms,200ms,300ms,500ms,1s
+management.metrics.tags.application=app-forum-api
+```
+
+Ao finalizar aplique o comando para compilar o pacote novamente e suba a aplicação.
