@@ -5,7 +5,7 @@ Coletando métricas de uma aplicação com Prometheus
 Cada tópico terá um arquivo como os passos para execução das modificações e suas evidências.
 
 * **Aula01/** - Tornando uma aplicação observável
-* **Aula02/** - Exemplo
+* **Aula02/** - Métricas padrões e personalizadas
 
 ## Softwares e versões
 
