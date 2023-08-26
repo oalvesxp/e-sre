@@ -78,4 +78,6 @@ management.metrics.distribution.sla.http.server.requests=50ms,100ms,200ms,300ms,
 management.metrics.tags.application=app-forum-api
 ```
 
-Ao finalizar aplique o comando para compilar o pacote novamente e suba a aplicação.
+Ao finalizar aplique o comando para compilar o pacote novamente e suba a aplicação.</br>
+Agora você poderá cessar a página do actuator novamente onde haverá o endpoint do Prometheus configurado.
+* http://localhost:8080/actuator/prometheus
