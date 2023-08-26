@@ -80,3 +80,48 @@ http_server_requests_seconds_bucket{application="app-forum-api",exception="None"
 http_server_requests_seconds_count{application="app-forum-api",exception="None",method="GET",outcome="SUCCESS",status="200",uri="/topicos/{id}",} 1.0
 http_server_requests_seconds_sum{application="app-forum-api",exception="None",method="GET",outcome="SUCCESS",status="200",uri="/topicos/{id}",} 0.161489462
 ```
+
+### Métricas personalizadas
+
+Além das métricas padrões nós precisamos de outras personalizadas para ter mais observabilidade sob as regras de negócio, por exemplo, número de usuários autenticados, e tentativas de autenticação com erro.
+</br>
+Para faer isso vamos primeiro configurar um método no nosso código para ele gerar essa métrica.</br>
+Acesse o arquivo "~/api/app/src/main/java/controller/AutenticacaoController.java" e import as bibliotecas necessárias a partir da linha 20:
+```
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
+```
+</br>
+Após a linha 26 adicione os counters e o metódo para gerar a métricar de "User":
+
+```
+	Counter authUserSuccess;
+	Counter authUserErrors;
+
+	public AutenticacaoController(MeterRegistry registry) {
+		authUserSuccess = Counter.builder("auth_user_success")
+			.description("usuarios autenticados")
+			.register(registry);
+		
+		authUserErrors = Counter.builder("auth_user_errors")
+			.description("erros de login")
+			.register(registry);
+	}
+```
+</br>
+Por fim adicione o increment no metodo de geração do Token:
+
+```
+		try {
+			Authentication authentication = authManager.authenticate(dadosLogin);
+			String token = tokenService.gerarToken(authentication);
+			authUserSuccess.increment(); 		
+			return ResponseEntity.ok(new TokenDto(token, "Bearer"));
+			
+		} catch (AuthenticationException e) {
+			authUserErrors.increment(); 		
+			return ResponseEntity.badRequest().build();
+		}
+```
+</br>
+Agora repita o processo de compilação do artefato jar e suba a aplicação novamente.
