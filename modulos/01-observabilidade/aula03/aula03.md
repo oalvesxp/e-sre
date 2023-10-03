@@ -116,3 +116,41 @@ Por fim vamos adicionar algumas configurações no nosso arquivo do docker-compo
       - monit
       - api
 ```
+
+### Inciando a aplicação no Container Docker
+</br>
+Antes de subir a aplicação no docker aplique os comandos para agregar as devidas permissões nos diretórios:
+
+```
+$ sudo chmod 777 -Rvf prometheus
+$ sudo chmod 775 -R mysql
+```
+
+No diretório antes de tudo faça um novo artefato .jar para incorporar as mudanças realizadas:
+
+```
+$ cd /app
+$ mvn clean package
+```
+</br>
+Agora suba o compose configurado dentro do diretório /api:
+
+```
+$ cd ..
+$ sudo docker compose up -d
+```
+</br>
+Agora para acessar os tópicos no banco você deve usar:
+- http://localhost/topicos
+- http://localhost/topicos/1
+- http://localhost/topicos/2
+- http://localhost/topicos/3
+
+E para acessar os demais endpoints expostos pelo actuator:
+- http://localhost/auth
+- http://localhost/info
+- http://localhost/metrics
+- http://localhost/health
+
+Agora o prometheus tem um url dedicado na porta 9090:
+- http://localhost:9090
