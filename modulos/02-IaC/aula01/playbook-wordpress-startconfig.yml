@@ -35,3 +35,10 @@
         get_url:
           url: 'https://wordpress.org/latest.tar.gz'
           dest: '/tmp/latest.tar.gz'
+      
+      - name: 'Descompactando os arquivos do Wordpress'
+        unarchive:
+          src: '/tmp/latest.tar.gz'
+          dest: /var/www/
+          remote_src: yes
+        become: yes
