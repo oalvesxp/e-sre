@@ -1,20 +1,12 @@
 ---
   - hosts: all
     tasks:
-      - name: 'Instalando o PHP5'
-        apt:
-          name: php5
+      - name: 'Instalando as dependencias do SO'
+        apt: 
+          name: '{{ item }}'
           state: latest
         become: yes
-
-      - name: 'Instalando o Apache2'
-        apt:
-          name: apache2
-          state: latest
-        become: yes
-      
-      - name: 'Instalando o módulo do PHP5 para Apache2'
-        apt:
-          name: libapache2-mod-php5
-          state: latest
-        become: yes
+        with_items:
+          - php5
+          - apache2
+          - libapache2-mod-php5
