@@ -30,3 +30,8 @@
           password: abcd1234
           priv: 'wordpress_db.*:ALL'
           state: present
+      
+      - name: 'Baixando os arquivos do Wordpress'
+        get_url:
+          url: 'https://wordpress.org/latest.tar.gz'
+          dest: '/tmp/latest.tar.gz'
