@@ -1,2 +1,2 @@
 [wordpress]
-127.0.0.1
+127.0.0.1   ansible_user=vagrant    ansible_ssh_private_key_file="~/Documentos/media/labs/vms/ansible/.vagrant/machines/wordpress/virtualbox/private_key"   ansible_ssh_port="2222"
