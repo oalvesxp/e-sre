@@ -1,0 +1,17 @@
+{
+	"ulid": "01HCMKHFT49324AAFYN2VN2GWM",
+	"minTime": 1697154361737,
+	"maxTime": 1697155200000,
+	"stats": {
+		"numSamples": 2803,
+		"numSeries": 463,
+		"numChunks": 463
+	},
+	"compaction": {
+		"level": 1,
+		"sources": [
+			"01HCMKHFT49324AAFYN2VN2GWM"
+		]
+	},
+	"version": 1
+}

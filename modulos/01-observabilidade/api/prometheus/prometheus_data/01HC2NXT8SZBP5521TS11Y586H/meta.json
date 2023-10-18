@@ -1,0 +1,17 @@
+{
+	"ulid": "01HC2NXT8SZBP5521TS11Y586H",
+	"minTime": 1696513161736,
+	"maxTime": 1696514400000,
+	"stats": {
+		"numSamples": 8087,
+		"numSeries": 463,
+		"numChunks": 463
+	},
+	"compaction": {
+		"level": 1,
+		"sources": [
+			"01HC2NXT8SZBP5521TS11Y586H"
+		]
+	},
+	"version": 1
+}

@@ -1,0 +1,17 @@
+{
+	"ulid": "01HCSMG044JXR46EAQ2YA273VD",
+	"minTime": 1697296576738,
+	"maxTime": 1697299200000,
+	"stats": {
+		"numSamples": 44432,
+		"numSeries": 463,
+		"numChunks": 473
+	},
+	"compaction": {
+		"level": 1,
+		"sources": [
+			"01HCSMG044JXR46EAQ2YA273VD"
+		]
+	},
+	"version": 1
+}

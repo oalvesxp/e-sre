@@ -1,0 +1,17 @@
+{
+	"ulid": "01HCAAA20S101FKW73TRHAPYC0",
+	"minTime": 1696602186738,
+	"maxTime": 1696608000000,
+	"stats": {
+		"numSamples": 1382,
+		"numSeries": 463,
+		"numChunks": 463
+	},
+	"compaction": {
+		"level": 1,
+		"sources": [
+			"01HCAAA20S101FKW73TRHAPYC0"
+		]
+	},
+	"version": 1
+}

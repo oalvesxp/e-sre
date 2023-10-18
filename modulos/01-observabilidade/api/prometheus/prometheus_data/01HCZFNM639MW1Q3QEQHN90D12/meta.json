@@ -1,0 +1,17 @@
+{
+	"ulid": "01HCZFNM639MW1Q3QEQHN90D12",
+	"minTime": 1697372438622,
+	"maxTime": 1697378400000,
+	"stats": {
+		"numSamples": 6095,
+		"numSeries": 463,
+		"numChunks": 463
+	},
+	"compaction": {
+		"level": 1,
+		"sources": [
+			"01HCZFNM639MW1Q3QEQHN90D12"
+		]
+	},
+	"version": 1
+}
