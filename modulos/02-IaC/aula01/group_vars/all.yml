@@ -1,0 +1,7 @@
+---
+wp_username: wpuser
+wp_db_name: wordpress_db
+wp_db_passwd: abcd1234
+root_dir: /var/www/wordpress
+wp_host_ip: 172.16.177.48
+db_host_ip: 172.16.177.42
