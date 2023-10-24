@@ -1,5 +1,12 @@
 ---
   - hosts: database
+    handlers:
+      - name: restart mysql
+        service:
+          name: mysql
+          state: restarted
+        become: yes
+
     tasks:
       - name: "Instalando o MySQL"
         apt:
@@ -23,6 +30,19 @@
           password: abcd1234
           priv: 'wordpress_db.*:ALL'
           state: present
+          host: "{{ item }}"
+        with_items:
+          - 'localhost'
+          - '127.0.0.1'
+          - '172.16.177.48'
+        
+      - name: "Configurando o MySQL"
+        copy:
+          src: "files/my.cnf"
+          dest: "/etc/mysql/my.cnf"
+        become: yes
+        notify:
+          - restart mysql
 
   - hosts: wordpress
     handlers:
@@ -75,6 +95,7 @@
           - { regex: 'database_name_here', value: 'wordpress_db' }
           - { regex: 'username_here', value: 'wpuser' }
           - { regex: 'password_here', value: 'abcd1234' }
+          - { regex: 'localhost', value: '172.16.177.42' }
         become: yes
       
       - name: "Atualizando o vHost"
