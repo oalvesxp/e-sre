@@ -99,8 +99,8 @@
         become: yes
       
       - name: "Atualizando o vHost"
-        copy:
-          src: "files/000-default.conf"
+        template:
+          src: "templates/000-default.conf.j2"
           dest: "/etc/apache2/sites-available/000-default.conf"
         become: yes
         notify:
