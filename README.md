@@ -9,3 +9,7 @@ Na primeira parte deste projeto você vai conhecer a Engenharia de Confiabilidad
 1. Observabilidade: coletando métricas de uma aplicação com Prometheus
 
 Neste módulo, você vai aprender sobre a anatomia das métricas, como personalizá-las em uma aplicação, explorar os 4 tipos de métricas no Prometheus e utilizar seletores e funções com PromQL.
+
+2. IaC - Infrastructure as Code (Infraestrutura como Código)
+
+Aprenda a criar e gerenciar sua infraestrutura na AWS com base em código, utilizando Terraform e Ansible.

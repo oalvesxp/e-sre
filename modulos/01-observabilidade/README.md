@@ -6,6 +6,7 @@ Cada tópico terá um arquivo como os passos para execução das modificações 
 
 * **Aula01/** - Tornando uma aplicação observável
 * **Aula02/** - Métricas padrões e personalizadas
+* **Aula03/** - Conteinerizando o ambiente
 
 ## Softwares e versões
 
