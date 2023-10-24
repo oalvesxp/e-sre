@@ -1,5 +1,12 @@
 ---
   - hosts: all
+    handlers:
+      - name: restart apache
+        service: 
+          name: apache2
+          state: restarted
+        become: yes
+
     tasks:
       - name: 'Instalando as dependencias do SO'
         apt: 
@@ -59,3 +66,11 @@
           - { regex: 'username_here', value: 'wpuser' }
           - { regex: 'password_here', value: 'abcd1234' }
         become: yes
+      
+      - name: 'Atualizando o vHost'
+        copy:
+          src: 'files/000-default.conf'
+          dest: '/etc/apache2/sites-available/000-default.conf'
+        become: yes
+        notify:
+          - restart apache
