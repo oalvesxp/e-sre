@@ -9,7 +9,7 @@
   become: yes
   with_items:
     - apache2
-    - mariadb-sever-10.3
+    - mariadb-server-10.3
     - php7.3-mysql
     - php7.3
     - libapache2-mod-php7.3
