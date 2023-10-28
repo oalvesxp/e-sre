@@ -98,3 +98,33 @@ $ vim roles/php/tasks/main.yml
     - php7-gd
     - php-ssh2
 ```
+
+### 2.3 Gerando a role para o Server
+
+Repita o processo do ansible-galaxy
+Nesta etapa será necessário configurar 2 tasks para o Server.
+
+    * Update do cache do sistema (apt)
+    * Instalação de alguns softwares
+
+Configure o arquivo de tasks da seguinte maneira:
+```
+$ vim roles/server/tasks/main.yml
+
+# Task para atualizar o cache do sistema
+- name: Update apt cache
+  apt: update_cache=yes cache_valid_time=3600
+  become: yes
+
+# Task para instalar os softwares necessários
+- name: Install required softwares
+  apt: name={{ item }} state=present
+  become: yes
+  with_items:
+    - apache2
+    - mariadb-sever-10.3
+    - php7.3-mysql
+    - php7.3
+    - libapache2-mod-php7.3
+    - python3-mysqldb
+```
