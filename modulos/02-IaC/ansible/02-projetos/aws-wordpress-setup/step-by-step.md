@@ -104,8 +104,8 @@ $ vim roles/php/tasks/main.yml
 Repita o processo do ansible-galaxy
 Nesta etapa será necessário configurar 2 tasks para o Server.
 
-    * Update do cache do sistema (apt)
-    * Instalação de alguns softwares
+* Update do cache do sistema (apt)
+* Instalação de alguns softwares
 
 Configure o arquivo de tasks da seguinte maneira:
 ```
@@ -127,4 +127,80 @@ $ vim roles/server/tasks/main.yml
     - php7.3
     - libapache2-mod-php7.3
     - python3-mysqldb
+```
+
+### 2.3 Gerando a role para o WordPress
+
+Use o Galaxy para gerar os arquivos e diretórios base.
+Nesta etapa precisamos configurar mais tasks:
+
+* Download do Wordpress
+* Extração dos arquivos do WordPress
+* Atualizar o vhost com o root_dir do site
+* Copiar o arquivo de wp-config.php
+* Atualizar o arquivo para o WordPress se conectar com o banco de dados.
+* Reiniciar o apache2
+
+Vamos criar uma váriavel de baixa prioridade para o diretório root do site:
+```
+$ vim roles/wordpress/defaults/main.yml
+
+website_root: /var/www/wordpress
+```
+
+Agora vamos adicionar as configurações desejadas no arquivo de tasks:
+```
+$ vim roles/wordpress/tasks/main.yml
+
+# Task para baixar a ultima versão do WordPress
+- name: Download WordPress
+  get_url:
+    url=https://wordpress.org/latest.tar.gz
+    dest=/tmp/latest.tar.gz
+    validate_certs=no
+
+# Task para extrair os arquivos do wordpress
+- name: Extract WordPress
+  unarchive:
+    src=/tmp/latest.tar.gz
+    dest=/var/www/
+    copy=no
+  become: yes
+
+# Task para atualizar o vHost do Apache2 e aplicar o restart
+- name: Update default Apache site
+  lineinfile:
+    dest=/etc/apache2/sites-enabled/000-default.conf
+    regexp="(.)+DocumentRoot /var/www/html"
+    line="DocumentRoot {{ website_root }}" 
+  become: yes
+  notify:
+    - restart apache
+
+# Task para copiar o arquivo de wp-config.php
+- name: Copy sample config file
+  command: mv {{ website_root}}/wp-config-sample.php {{ website_root }}/wp-config.php creates={{ website_root }}/wp-config.php
+  become: yes
+
+# Task para atualizar o wp-config.php
+- name: Update WordPress config file
+  ansible.builtin.replace:
+    dest={{ website_root }}/wp-config.php
+    regexp="{{ item.regex }}"
+    replace="{{ item.value }}"
+  with_items:
+    - { regex: 'database_name_here', value: "{{ wp_mysql_db }}" }
+    - { regex: 'username_here', value: "{{ wp_mysql_user }}" }
+    - { regex: 'password_here', value: "{{ wp_mysql_passwd }}" }
+  become: yes
+```
+
+Para encerrar as configurações do wordpress crie o handlers para reiniciar o apache:
+```
+# vim roles/worpress/handlers/main.yml
+
+# Handlers para reiniciar o apache2
+- name: restart apache
+  service: name=apache2 state=restarted
+  become: yes
 ```
