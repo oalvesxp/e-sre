@@ -19,6 +19,8 @@
     regexp="(.)+DocumentRoot /var/www/html"
     line="DocumentRoot {{ website_root }}" 
   become: yes
+  notify:
+    - restart apache
 
 - name: Copy sample config file
   command: mv {{ website_root}}/wp-config-sample.php {{ website_root }}/wp-config.php creates={{ website_root }}/wp-config.php
