@@ -12,3 +12,10 @@
     dest=/var/www/
     copy=no
   become: yes
+
+- name: Update default Apache site
+  lineinfile:
+    dest=/etc/apache2/sites-enabled/000-default.conf
+    regexp="(.)+DocumentRoot /var/www/html"
+    line="DocumentRoot {{ website_root }}" 
+  become: yes  
