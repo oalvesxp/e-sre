@@ -1,2 +1,5 @@
 ---
 # tasks file for mysql
+- name: Create mysql database
+  mysql_db: name={{ wp_mysql_db }} state=present
+  become: yes
