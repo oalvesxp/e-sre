@@ -204,3 +204,32 @@ Para encerrar as configurações do wordpress crie o handlers para reiniciar o a
   service: name=apache2 state=restarted
   become: yes
 ```
+
+### 3. Criando e configure o playbook de configstart do Wordpress
+
+Crie um arquivo de playbook na pasta raiz do projeto.
+Configure o arquivo da seguinte maneira:
+```
+# vim playbook-configstart-wp.yml
+
+# Iniciando o playbook com o gather_facts=False
+- hosts: all
+  gather_facts: False 
+  become: yes
+
+# Task para instalar o python3 em todas as intâncias
+  tasks:
+    - name: Install Python
+      command: apt install python3
+      become: yes
+      vars:
+        ansible_python_interpreter: /usr/bin/python3
+
+# Adicionando as roles para serem executadas no host de webapp
+- hosts: webapp
+  roles:
+    - server
+    - php
+    - mysql
+    - wordpress
+```
