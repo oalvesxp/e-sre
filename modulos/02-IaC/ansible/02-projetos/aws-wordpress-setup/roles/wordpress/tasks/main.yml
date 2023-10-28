@@ -18,4 +18,8 @@
     dest=/etc/apache2/sites-enabled/000-default.conf
     regexp="(.)+DocumentRoot /var/www/html"
     line="DocumentRoot {{ website_root }}" 
-  become: yes  
+  become: yes
+
+- name: Copy sample config file
+  command: mv {{ website_root}}/wp-config-sample.php {{ website_root }}/wp-config.php creates={{ website_root }}/wp-config.php
+  become: yes
