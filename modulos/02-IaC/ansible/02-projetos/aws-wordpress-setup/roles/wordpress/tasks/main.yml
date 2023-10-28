@@ -1,2 +1,7 @@
 ---
 # tasks file for wordpres
+- name: Download WordPress
+  get_url:
+    url=https://wordpress.org/latest.tar.gz
+    dest=/tmp/latest.tar.gz
+    validate_certs=no
