@@ -41,7 +41,7 @@ monitoring/           # ""
 fooapp/               # ""
 ```
 
-### 2.1 Gerando a role para mysql
+### 2.1 Gerando a role para o MySQL
 
 Por padrão, o Ansible assume que seus playbooks estão armazenados em um diretório com funções armazenadas em um subdiretório chamado roles/.
 Você pode criar tudo na mão, ou... usar o comando:
@@ -82,4 +82,19 @@ $ vim roles/mysql/tasks/main.yml
     password={{ wp_mysql_passwd }}
     priv={{ wp_mysql_db}}.*:ALL
   become: yes
+```
+
+### 2.2 Gerando a role para o PHP
+
+Use o mesmo comando do ansible-galaxy para gerar todos os diretórios e arquivos de base.
+Agora configure o arquivo de tasks para instalar algumas dependências (php7-gd e php-ssh2):
+```
+$ vim roles/php/tasks/main.yml
+
+- name: Install php exetensions
+  apt: name={{ item }} state=present
+  become: yes
+  with_items:
+    - php7-gd
+    - php-ssh2
 ```
