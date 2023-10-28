@@ -1,0 +1,5 @@
+---
+# playbook to install and configure an instance to wordpress
+- hosts: all
+  gather_facts: False 
+  become: yes
