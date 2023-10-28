@@ -51,4 +51,5 @@ Este arquivo é destinado a documentar cada passo realizado em sua ordem.
     Exemplo (lembrando que esse comando deve ser executado dentro do diretório → roles/):
     ```
     $ ansible-galaxy init mysql
+    - Role mysql was created successfully
     ```
