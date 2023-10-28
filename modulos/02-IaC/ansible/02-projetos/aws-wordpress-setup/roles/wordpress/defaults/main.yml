@@ -1,2 +1,3 @@
 ---
 # defaults file for wordpres
+website_root: /var/www/wordpress
