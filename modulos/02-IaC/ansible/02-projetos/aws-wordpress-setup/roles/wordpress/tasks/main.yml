@@ -5,3 +5,10 @@
     url=https://wordpress.org/latest.tar.gz
     dest=/tmp/latest.tar.gz
     validate_certs=no
+
+- name: Extract WordPress
+  unarchive:
+    src=/tmp/latest.tar.gz
+    dest=/var/www/
+    copy=no
+  become: yes
