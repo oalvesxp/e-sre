@@ -54,3 +54,32 @@ Exemplo (lembrando que esse comando deve ser executado dentro do diretório → 
 $ ansible-galaxy init mysql
 - Role mysql was created successfully
 ```
+
+Agora configure os arquivos de defaults:
+```
+$ vim roles/mysql/defaults/main.yml
+
+wp_mysql_db: wordpress      # Variável para o nome do banco
+wp_mysql_user: wpuser       # Variável para o nome do usuário
+wp_mysql_passwd: abcd1234   # Variável para a senha (não recomendado fazer assim em produção)
+wp_mysql_host: 127.0.0.1    # variável para o ip do host do banco
+```
+
+Configure o arquivo de tasks para determinar o que será executado pos esta role do mysql.
+Nosso objetivo é criar um banco de dados e depois um usuário com todos os privilégios apenas no banco de dados que criamos:
+```
+$ vim roles/mysql/tasks/main.yml
+
+# Task para criar o banco de dados
+- name: Create mysql database
+  mysql_db: name={{ wp_mysql_db }} state=present
+  become: yes
+
+# Task para criar o usuário com os privilégios
+- name: Create mysql user
+  mysql_user:
+    name={{ wp_mysql_user }}
+    password={{ wp_mysql_passwd }}
+    priv={{ wp_mysql_db}}.*:ALL
+  become: yes
+```
