@@ -23,3 +23,14 @@
 - name: Copy sample config file
   command: mv {{ website_root}}/wp-config-sample.php {{ website_root }}/wp-config.php creates={{ website_root }}/wp-config.php
   become: yes
+
+- name: Update WordPress config file
+  ansible.builtin.replace:
+    dest={{ website_root }}/wp-config.php
+    regexp="{{ item.regex }}"
+    replace="{{ item.value }}"
+  with_items:
+    - { regex: 'database_name_here', value: "{{ wp_mysql_db }}" }
+    - { regex: 'username_here', value: "{{ wp_mysql_user }}" }
+    - { regex: 'password_here', value: "{{ wp_mysql_passwd }}" }
+  become: yes
