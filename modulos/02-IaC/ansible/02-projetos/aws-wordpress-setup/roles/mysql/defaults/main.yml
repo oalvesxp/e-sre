@@ -1,2 +1,6 @@
 ---
 # defaults file for mysql
+wp_mysql_db: wordpress
+wp_mysql_user: wpuser
+wp_mysql_passwd: abcd1234
+wp_mysql_host: 127.0.0.1
