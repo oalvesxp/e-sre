@@ -1,2 +1,8 @@
 ---
 # tasks file for php
+- name: Install php exetensions
+  apt: name={{ item }} state=present
+  become: yes
+  with_items:
+    - php7-gd
+    - php-ssh2
