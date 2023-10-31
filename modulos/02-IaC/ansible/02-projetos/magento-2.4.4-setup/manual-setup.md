@@ -112,3 +112,57 @@ mysql> GRANT ALL PRIVILEGES ON magentodb.* TO 'magento'@'%' IDENTIFIED BY 'm0d1f
 mysql> FLUSH PRIVILEGES;
 mysql> \q
 ```
+
+### 5. Instale o Elasticsearch
+
+O Magento 2.4.x deve ser configurado para usar o Elasticsearch como soluçãoi de pesquisa de catálogo.
+Primeiro instale as dependencias necessárias:
+```
+$ sudo apt install apt-transport-https ca-certificates gnupg2 -y
+```
+
+Importe a chage GPG usando o seguinte comando:
+```
+$ wget -q0 https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
+```
+
+Execute o comando abaixo para adicionar o repositório do Elasticsearch:
+```
+$ sudo sh -c 'echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" > /etc/apt/sources.list.d/elastic-7.x.list'
+```
+
+Por fim instale o Elasticsearch:
+```
+$ sudo apt update && sudo apt install elasticsearch -y
+```
+
+Agora que ele foi instalado, você deve ativar o serviço com o seguinte comando:
+```
+$ sudo systemctl --now enable elasticsearch
+```
+
+Para verificar se o Elasticsearch está realmente funcionando, execute:
+```
+$ curl -X GET "localhost:9200"
+```
+
+O output deve ser assim:
+```
+{
+"name" : "ubuntu20",
+"cluster_name" : "elasticsearch",
+"cluster_uuid" : "FKnwn1-fSYm54T3dv7a6UQ",
+"version" : {
+"number" : "7.15.0",
+"build_flavor" : "default",
+"build_type" : "deb",
+"build_hash" : "79d65f6e357953a5b3cbcc5e2c7c21073d89aa29",
+"build_date" : "2021-09-16T03:05:29.143308416Z",
+"build_snapshot" : false,
+"lucene_version" : "8.9.0",
+"minimum_wire_compatibility_version" : "6.8.0",
+"minimum_index_compatibility_version" : "6.0.0-beta1"
+},
+"tagline" : "You Know, for Search"
+}
+```
