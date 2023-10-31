@@ -46,7 +46,7 @@ $ sudo apt update
 O Magento 2.4.4 é totalmente compatível com o PHP 8.1.
 Agora execute o comando abaixo para instalar o PHP e todos os módulos necessários:
 ```
-$ sudo apt install php8.1-{bcmath,common,curl,fpm,gd,intl,mbstring,mysql,xml,xsl,zip,cli}
+$ sudo apt install php8.1-{bcmath,common,curl,fpm,gd,intl,mbstring,mysql,xml,xsl,zip,cli,soap}
 ```
 
 Agora pode aumentar os valores de algumas variáveis do PHP para atender os requisitos mínimos do Magento 2.4.4:
@@ -72,7 +72,7 @@ $ vim /etc/nginx/sites-enabled/magento.conf
 Insira as seguintes configurações no arquivo:
 ```
 server{
-    servername <your-domain>;
+    server_name <your-domain>;
     listen 80;
     set $MAGE_ROOT /var/www/magento2;
     set $MAGE_MODE developer; # or production
@@ -86,6 +86,11 @@ server{
 upstream fastcgi_backend {
     server unix:/run/php/php8.1-fpm.sock;
 }
+```
+
+Agora inicialize o nginx:
+```
+$ sudo systemctl --now enable nginx
 ```
 
 ### 4. Instale o servidor de banco de dados (mariaDB)
@@ -123,7 +128,7 @@ $ sudo apt install apt-transport-https ca-certificates gnupg2 -y
 
 Importe a chage GPG usando o seguinte comando:
 ```
-$ wget -q0 https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
+$ wget -qO https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
 ```
 
 Execute o comando abaixo para adicionar o repositório do Elasticsearch:
@@ -212,17 +217,18 @@ $ bin/magento setup:install \
     --admin-firstname=admin \
     --admin-lastname=admin \
     --admin-email=admin@admin.com \
+    --admin-user=admin \
     --admin-password=admin@123 \
     --language=pt_BR \
     --currency=BRL \
-    --timezone=SouthAmerica/Brazil \
+    --timezone=America/Sao_Paulo \
     --use-rewrites=1
 ```
 
 Após a conclusão você receberá a seguinte mensagem no outpu:
 ```
 [SUCCESS]: Magento installation complete.
-[SUCCESS]: Magento Admin URI: /admin_1iwnbd
+[SUCCESS]: Magento Admin URI: /admin_1hgc74
 ```
 
 Corrija as permissões do diretório do site:
@@ -248,7 +254,7 @@ $ sudo -u www-data bin/magento cron:install
 
 Instale os pacotes necessários executando o comando:
 ```
-$ sudo apt install cerbot python3-certbot-nginx
+$ sudo apt install certbot python3-certbot-nginx
 ```
 
 Execute o commando para installar um novo certificado SSL para o domínio.
