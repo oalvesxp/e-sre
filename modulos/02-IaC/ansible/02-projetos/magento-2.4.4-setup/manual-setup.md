@@ -34,3 +34,25 @@ Certifique-se que os pacotes instalados estão atualizados em sua versão mais r
 ```
 $ sudo apt update && sudo apt upgrade -y
 ```
+
+### 2. Instale o PHP 8.1
+
+Por padrão, o PHP 8.1 não está disponível na biblioteca do Ubuntu 20.04. Use o comando abaixo para adicionar um repositório para ele:
+```
+$ sudo apt install software-properties-common && sudo add-apt-repository ppa:ondrej/php -y
+$ sudo apt update
+```
+
+O Magento 2.4.4 é totalmente compatível com o PHP 8.1.
+Agora execute o comando abaixo para instalar o PHP e todos os módulos necessários:
+```
+$ sudo apt install php8.1-{bcmath,common,curl,fpm,gd,intl,mbstring,mysql,xml,xsl,zip,cli}
+```
+
+Agora pode aumentar os valores de algumas variáveis do PHP para atender os requisitos mínimos do Magento 2.4.4:
+```
+$ sudo sed -i "s/memory_limit = .*/memory_limit = 768M/" /etc/php/8.1/fpm/php.ini
+$ sudo sed -i "s/upload_max_filesize = .*/upload_max_filesize = 128M/" /etc/php/8.1/fpm/php.ini
+$ sudo sed -i "s/zlib.output_compression = .*/zlib.output_compression = on/" /etc/php/8.1/fpm/php.ini
+$ sudo sed -i "s/max_execution_time = .*/max_execution_time = 18000/" /etc/php/8.1/fpm/php.ini
+```
