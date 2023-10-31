@@ -166,3 +166,17 @@ O output deve ser assim:
 "tagline" : "You Know, for Search"
 }
 ```
+
+### 6. Instale o composer
+
+Use os comandos abaixo para instalar os Composer:
+```
+$ curl -sS https://getcomposer.org/installer -o composer-setup.php
+$ sudo php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+```
+
+Você instalou o Composer com sucesso no sistema, e está diponivel para uso global, pois armazenamos no /usr/local/bin/.
+Verifique a versão do Composer com este comando:
+```
+$ composer -V
+```
