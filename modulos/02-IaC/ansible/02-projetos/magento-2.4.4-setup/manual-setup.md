@@ -87,3 +87,28 @@ upstream fastcgi_backend {
     server unix:/run/php/php8.1-fpm.sock;
 }
 ```
+
+### 4. Instale o servidor de banco de dados
+
+Neste tutorial estamos usando o MariaDB mais recente:
+```
+$ sudo apt install mariadb-server
+```
+
+Após a instalação use o comando abaixo para criar uma senha para o usuário root do banco de dados e tornar seu projeto mais seguro:
+```
+$ mysql_secure_installation
+```
+
+Ao definir uma senha, use o comando a seguir para realizar o login no mysql:
+```
+$ mysql -u root -p
+```
+
+Crie um banco de dados para o nosso site e um usuário com todos os privilégios para acessa-lo. Use os comandos a seguir:
+```
+mysql> CREATE DATABASE magentodb;
+mysql> GRANT ALL PRIVILEGES ON magentodb.* TO 'magento'@'%' IDENTIFIED BY 'm0d1f1257';
+mysql> FLUSH PRIVILEGES;
+mysql> \q
+```
