@@ -235,3 +235,11 @@ Por padrão o 2MFA do magento está habilitada. Para desabilitar, execute:
 $ sudo -u www-data bin/magento module:disable Magento_TwoFactorAuth
 $ sudo -u www-data bin/magento cache:flush
 ```
+
+### 8. Configurar os Crons
+
+O Magento usa cronjobs para automatizar funções importantes do sistema.
+Crie os Cronjobs com o seguinte comando:
+```
+$ sudo -u www-data bin/magento cron:install
+```
