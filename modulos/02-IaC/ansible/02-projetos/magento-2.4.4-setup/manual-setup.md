@@ -57,7 +57,7 @@ $ sudo sed -i "s/zlib.output_compression = .*/zlib.output_compression = on/" /et
 $ sudo sed -i "s/max_execution_time = .*/max_execution_time = 18000/" /etc/php/8.1/fpm/php.ini
 ```
 
-### 3. Instale o servidor web
+### 3. Instale o servidor web (Nginx)
 
 Estamos usuando o servidor web Nginx para este tutorial:
 ```
@@ -88,7 +88,7 @@ upstream fastcgi_backend {
 }
 ```
 
-### 4. Instale o servidor de banco de dados
+### 4. Instale o servidor de banco de dados (mariaDB)
 
 Neste tutorial estamos usando o MariaDB mais recente:
 ```
@@ -167,7 +167,7 @@ O output deve ser assim:
 }
 ```
 
-### 6. Instale o composer
+### 6. Instale o Composer
 
 Use os comandos abaixo para instalar os Composer:
 ```
@@ -179,4 +179,59 @@ Você instalou o Composer com sucesso no sistema, e está diponivel para uso glo
 Verifique a versão do Composer com este comando:
 ```
 $ composer -V
+```
+
+### 7. Baixe o Magento
+
+Vamos instalar o Magento 2.4.4 usando o Composer. Você precisará de uma chave de acesso para a próxima etapa.
+Crie uma conta no https://magento.com e acesse o https://commercemarketplace.adobe.com/customer/accessKeys/ e crie uma chave de acesso.
+Depois de ter a chave de acesso, execute o comando em sua sessão SSH (ou no seu sistema local, se for o caso):
+```
+$ composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=2.4.4 /var/www/magento2
+```
+Ao ser solicitado usuário e senha digite as chaves conforme abaixo:
+```
+username > Chave Pública
+password > Chave Privada
+```
+
+Você não a string da senha. Basta coloca-la e o Composer iniciará o download do Magento 2.
+Após a conclusão do download, acesse o diretório do site com o comando abaixo:
+```
+$ cd /var/www/magento2
+```
+
+Você pode editar o domínio, endereço de e-mail e senha do adiministrador. Use o seguinte commando:
+```
+$ bin/magento setup:install \
+    --base-url=http://<your-domain> \
+    --db-host=localhost \
+    --db-name=magentodb \
+    --db-user=magento \
+    --db-password=m0d1f1257 \
+    --admin-firstname=admin \
+    --admin-lastname=admin \
+    --admin-email=admin@admin.com \
+    --admin-password=admin@123 \
+    --language=pt_BR \
+    --currency=BRL \
+    --timezone=SouthAmerica/Brazil \
+    --use-rewrites=1
+```
+
+Após a conclusão você receberá a seguinte mensagem no outpu:
+```
+[SUCCESS]: Magento installation complete.
+[SUCCESS]: Magento Admin URI: /admin_1iwnbd
+```
+
+Corrija as permissões do diretório do site:
+```
+$ sudo chown -R www-data: /var/www/magento2
+```
+
+Por padrão o 2MFA do magento está habilitada. Para desabilitar, execute:
+```
+$ sudo -u www-data bin/magento module:disable Magento_TwoFactorAuth
+$ sudo -u www-data bin/magento cache:flush
 ```
