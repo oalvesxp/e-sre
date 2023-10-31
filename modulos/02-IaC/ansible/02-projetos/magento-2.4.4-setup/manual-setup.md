@@ -56,3 +56,34 @@ $ sudo sed -i "s/upload_max_filesize = .*/upload_max_filesize = 128M/" /etc/php/
 $ sudo sed -i "s/zlib.output_compression = .*/zlib.output_compression = on/" /etc/php/8.1/fpm/php.ini
 $ sudo sed -i "s/max_execution_time = .*/max_execution_time = 18000/" /etc/php/8.1/fpm/php.ini
 ```
+
+### 3. Instale o servidor web
+
+Estamos usuando o servidor web Nginx para este tutorial:
+```
+$ sudo apt install nginx
+```
+
+Crie um bloco no servidor Nginx para o nosso site:
+```
+$ vim /etc/nginx/sites-enabled/magento.conf
+```
+
+Insira as seguintes configurações no arquivo:
+```
+server{
+    servername <your-domain>;
+    listen 80;
+    set $MAGE_ROOT /var/www/magento2;
+    set $MAGE_MODE developer; # or production
+
+    access_log /var/log/nginx/magento2-access.log;
+    error_log /var/log/nginx/magento2-error.log;
+
+    include /var/www/magento2/nginx.conf.sample;
+}
+
+upstream fastcgi_backend {
+    server unix:/run/php/php8.1-fpm.sock;
+}
+```
