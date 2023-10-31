@@ -243,3 +243,48 @@ Crie os Cronjobs com o seguinte comando:
 ```
 $ sudo -u www-data bin/magento cron:install
 ```
+
+### 9. Instale o certificado SSL
+
+Instale os pacotes necessários executando o comando:
+```
+$ sudo apt install cerbot python3-certbot-nginx
+```
+
+Execute o commando para installar um novo certificado SSL para o domínio.
+```
+# sudo certbot --nginx -d <your-domain> -d www.<your-domain>
+```
+
+o output dever ser:
+```
+Select the option ‘2’ and choose to redirect HTTP traffic to HTTPS:
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+1: No redirect - Make no further changes to the webserver configuration.
+2: Redirect - Make all requests redirect to secure HTTPS access. Choose this for
+new sites, or if you're confident your site works on HTTPS. You can undo this
+change by editing your web server's configuration.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Select the appropriate number [1-2] then [enter] (press 'c' to cancel): 2
+```
+
+Para testar o arquivo de configuração, você pode executar:
+```
+$ sudo nginx -t
+```
+
+Se o output não tiver mensagens de erro, aplique um reload do Nginx:
+```
+$ sudo systemctl reload nginx
+```
+
+Por fim atualize a Base URL do Magento para forçar o acesso pelo HTTPS:
+```
+$ cd /var/www/magento2
+$ sudo -u www-data bin/magento setup:store-config:set --base-url="https://<your-domain>"
+$ sudo -u www-data bin/magento setup:store-config:set --base-url-secure="https://<your-domain>"
+$ sudo -u www-data bin/magento cache:flush
+```
+
+Agora você concluiu todas as configurações e instalou o Magento 2.4.4 no Ubuntu 20.04 TLS. Veja todos os resultados no url do seu site.
