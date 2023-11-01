@@ -128,7 +128,7 @@ $ sudo apt install apt-transport-https ca-certificates gnupg2 -y
 
 Importe a chage GPG usando o seguinte comando:
 ```
-$ wget -qO https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
+$ wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
 ```
 
 Execute o comando abaixo para adicionar o repositório do Elasticsearch:
